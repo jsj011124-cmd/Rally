@@ -9,6 +9,7 @@
 <body>
 
   <input type="radio" name="rally-view" id="v-main" class="view-toggle" checked>
+  <input type="radio" name="rally-view" id="v-product" class="view-toggle">
   <input type="radio" name="rally-view" id="v-archive" class="view-toggle">
 
   <header>
@@ -18,7 +19,7 @@
       <ul>
         <li><label for="v-archive">ARCHIVE</label></li>
         <li class="sep">,</li>
-        <li><label for="v-main" data-scroll="product">PRODUCT</label></li>
+        <li><label for="v-product">PRODUCT</label></li>
         <li class="sep">,</li>
         <li><label for="v-main" data-scroll="app">APP</label></li>
         <li class="sep">,</li>
@@ -65,8 +66,8 @@
     </div>
   </section>
 
-  <!-- ===== Product lineup ===== -->
-  <section class="section" id="product">
+  <!-- ===== Product lineup (detail, still on the main page) ===== -->
+  <section class="section" id="lineup">
     <div class="section-top">
       <h2 class="display">Product<br>Lineup</h2>
       <p class="section-desc">Two objects, one rally. Glass frames the game in the room around you; Blade turns your swing into the beat that keeps it going.</p>
@@ -160,6 +161,41 @@
   <!-- ===== Footer ===== -->
   </main>
 
+  <main id="product" class="view">
+  <section class="page-head">
+    <h1 class="display">PRODUCT</h1>
+    <div class="page-intro">
+      <span class="eyebrow-label">Description</span>
+      <p>Two objects, one rally. Glass frames the game in the room around you; Blade turns your swing into the beat that keeps it going.</p>
+    </div>
+  </section>
+
+  <div class="product-grid">
+    <div class="product-cell">
+      <div class="product-cell-head">
+        <span class="product-name">Rally Glass</span>
+        <a href="#" class="buy-now">Buy now</a>
+      </div>
+      <div class="product-cell-image">
+        <div class="product-placeholder">Rally Glass<br>사진 예정</div>
+        <!-- 사진 준비되면 위 div를 지우고 아래 주석을 풀어주세요
+        <img src="images/product-glass.png" alt="Rally Glass"> -->
+      </div>
+    </div>
+    <div class="product-cell">
+      <div class="product-cell-head">
+        <span class="product-name">Rally Blade</span>
+        <a href="#" class="buy-now">Buy now</a>
+      </div>
+      <div class="product-cell-image">
+        <div class="product-placeholder">Rally Blade<br>사진 예정</div>
+        <!-- 사진 준비되면 위 div를 지우고 아래 주석을 풀어주세요
+        <img src="images/product-blade.png" alt="Rally Blade"> -->
+      </div>
+    </div>
+  </div>
+  </main>
+
   <main id="archive" class="view">
   <section class="page-head">
     <h1 class="display">ARCHIVE</h1>
@@ -210,7 +246,7 @@
     <div class="footer-bottom">
       <div class="f-links">
         <label for="v-archive">Archive</label>
-        <label for="v-main" data-scroll="product">Product</label>
+        <label for="v-product">Product</label>
         <label for="v-main" data-scroll="app">App</label>
         <a href="mailto:hello@keeptherally.com">hello@keeptherally.com</a>
       </div>
@@ -222,20 +258,27 @@
     /* Enhancement only. View switching is CSS (radio + label), so ARCHIVE works
        even where scripts or link navigation are blocked. */
     (function () {
-      var main = document.getElementById('v-main');
-      var archive = document.getElementById('v-archive');
+      var radios = {
+        main: document.getElementById('v-main'),
+        product: document.getElementById('v-product'),
+        archive: document.getElementById('v-archive')
+      };
 
-      if (location.hash === '#archive') archive.checked = true;
+      function applyHash() {
+        var hash = location.hash.slice(1);
+        (radios[hash] || radios.main).checked = true;
+      }
+      applyHash();
 
       document.addEventListener('click', function (e) {
-        var label = e.target.closest('label[for="v-main"], label[for="v-archive"]');
+        var label = e.target.closest('label[for="v-main"], label[for="v-product"], label[for="v-archive"]');
         if (!label) return;
-        var toArchive = label.getAttribute('for') === 'v-archive';
+        var name = label.getAttribute('for').slice(2); // "v-product" -> "product"
         // update the address bar without navigating (no interstitial prompt)
         // some embedded viewers run the page from about:srcdoc, where changing
         // the address is not permitted — the CSS switch works regardless
         try {
-          if (history.replaceState) history.replaceState(null, '', toArchive ? '#archive' : location.pathname);
+          if (history.replaceState) history.replaceState(null, '', name === 'main' ? location.pathname : '#' + name);
         } catch (err) { /* address bar stays as is */ }
         setTimeout(function () {
           var id = label.getAttribute('data-scroll');
@@ -245,10 +288,7 @@
         }, 0);
       });
 
-      window.addEventListener('hashchange', function () {
-        if (location.hash === '#archive') archive.checked = true;
-        else main.checked = true;
-      });
+      window.addEventListener('hashchange', applyHash);
     }());
   </script>
 

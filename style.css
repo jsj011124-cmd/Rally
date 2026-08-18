@@ -56,6 +56,7 @@
   }
   .view{display:none;}
   #v-main:checked ~ #view-main{display:block;}
+  #v-product:checked ~ #product{display:block;}
   #v-archive:checked ~ #archive{display:block;}
 
   /* ===== Header ===== */
@@ -89,12 +90,14 @@
   header nav label{cursor:pointer;}
   header nav a:hover,
   header nav label:hover{opacity:0.5;}
+  #v-product:checked ~ header nav label[for="v-product"],
   #v-archive:checked ~ header nav label[for="v-archive"]{
     opacity:1;
     text-decoration:underline;
     text-underline-offset:5px;
     text-decoration-thickness:1px;
   }
+  .view-toggle:focus-visible ~ header nav label[for="v-product"],
   .view-toggle:focus-visible ~ header nav label[for="v-archive"]{outline:2px solid var(--fg);outline-offset:4px;}
   header nav .sep{color:var(--line);font-size:15px;}
   .mark img{height:28px;width:auto;display:block;}
@@ -332,6 +335,69 @@
     margin-top:20px;
   }
 
+  /* ===== Product grid (PRODUCT view) ===== */
+  .product-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    border-top:1px solid var(--line);
+  }
+  .product-cell{
+    display:flex;
+    flex-direction:column;
+    padding:40px;
+    min-height:560px;
+  }
+  .product-cell:first-child{border-right:1px solid var(--line);}
+  .product-cell-head{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .product-name{
+    font-size:17px;
+    font-weight:700;
+    letter-spacing:-0.005em;
+  }
+  .buy-now{
+    font-size:14px;
+    font-weight:500;
+    color:var(--fg);
+    text-decoration:underline;
+    text-underline-offset:3px;
+    text-decoration-color:var(--line);
+    transition:text-decoration-color .2s;
+    width:fit-content;
+  }
+  .buy-now:hover{text-decoration-color:var(--fg);}
+  .product-cell-image{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 0;
+  }
+  .product-cell-image img{
+    max-width:100%;
+    max-height:420px;
+    width:auto;
+  }
+  .product-placeholder{
+    width:70%;
+    aspect-ratio:3/4;
+    max-width:320px;
+    border:1px dashed var(--line);
+    border-radius:4px;
+    background:var(--panel);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-size:13px;
+    font-weight:500;
+    line-height:1.6;
+    color:var(--muted);
+  }
+
   /* Justified collage: each row fits by aspect ratio, no gaps, no cropping */
   .collage{
     padding:0 40px 120px;
@@ -359,6 +425,9 @@
 
   @media (max-width:860px){
     .page-head{grid-template-columns:1fr;gap:32px;padding:56px 20px 48px;}
+    .product-grid{grid-template-columns:1fr;}
+    .product-cell{padding:32px 20px;min-height:0;}
+    .product-cell:first-child{border-right:none;border-bottom:1px solid var(--line);}
     .collage{padding:0 20px 70px;gap:10px;}
     .collage .row{flex-direction:column;gap:10px;}
   }
