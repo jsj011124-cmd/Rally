@@ -55,7 +55,7 @@
     height:5vmax;
     pointer-events:none;
     z-index:40;
-    animation:flying-drift 34s ease-in-out infinite;
+    animation:flying-drift 50s linear infinite;
   }
   .flying-badge img{
     width:100%;
@@ -64,14 +64,8 @@
     animation:flying-spin 20s linear infinite;
   }
   @keyframes flying-drift{
-    0%   { transform:translate(8vw, 18vh); }
-    14%  { transform:translate(72vw, 10vh); }
-    29%  { transform:translate(86vw, 58vh); }
-    43%  { transform:translate(58vw, 82vh); }
-    58%  { transform:translate(22vw, 72vh); }
-    72%  { transform:translate(6vw, 42vh); }
-    86%  { transform:translate(40vw, 22vh); }
-    100% { transform:translate(8vw, 18vh); }
+    0%   { transform:translate(-20vw, 108vh); }
+    100% { transform:translate(120vw, -22vh); }
   }
   @keyframes flying-spin{
     from{ transform:rotate(0deg); }
