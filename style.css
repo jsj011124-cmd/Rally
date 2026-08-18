@@ -73,6 +73,8 @@
     z-index:100;
   }
   .logo-img{height:47px;width:auto;display:block;}
+  .logo-link{display:block;cursor:pointer;transition:opacity .2s;}
+  .logo-link:hover{opacity:0.6;}
   header .header-right{
     display:flex;
     justify-content:space-between;
