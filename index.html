@@ -297,6 +297,43 @@
 
       window.addEventListener('hashchange', applyHash);
     }());
+
+    /* Flying badge: random off-screen entry/exit each pass.
+       CSS above drives a fixed diagonal as a no-JS fallback; here we take
+       over with the Web Animations API so every flight uses a fresh random
+       edge-to-edge path instead of repeating the same line. */
+    (function () {
+      var badge = document.querySelector('.flying-badge');
+      if (!badge || !badge.animate) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      var MARGIN = 20; // vw/vh beyond the viewport edge, so entry/exit is never visible
+
+      function edgePoint() {
+        var side = Math.floor(Math.random() * 4);
+        if (side === 0) return { x: -MARGIN, y: Math.random() * 100 };        // from left
+        if (side === 1) return { x: 100 + MARGIN, y: Math.random() * 100 };   // from right
+        if (side === 2) return { x: Math.random() * 100, y: -MARGIN };        // from top
+        return { x: Math.random() * 100, y: 100 + MARGIN };                   // from bottom
+      }
+
+      badge.style.animation = 'none'; // hand position over to the WAAPI flight below
+
+      function flyOnce() {
+        var from = edgePoint();
+        var to = edgePoint();
+        var duration = 7000 + Math.random() * 5000; // 7-12s, faster and varied
+        var anim = badge.animate(
+          [
+            { transform: 'translate(' + from.x + 'vw,' + from.y + 'vh)' },
+            { transform: 'translate(' + to.x + 'vw,' + to.y + 'vh)' }
+          ],
+          { duration: duration, easing: 'linear', fill: 'forwards' }
+        );
+        anim.onfinish = flyOnce;
+      }
+      flyOnce();
+    }());
   </script>
 
 </body>
