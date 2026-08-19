@@ -318,6 +318,7 @@
       }
 
       badge.style.animation = 'none'; // hand position over to the WAAPI flight below
+      badge.style.transform = 'translate(-' + MARGIN + 'vw, 108vh)'; // parked off-screen during the delay
 
       function flyOnce() {
         var from = edgePoint();
@@ -332,7 +333,7 @@
         );
         anim.onfinish = flyOnce;
       }
-      flyOnce();
+      setTimeout(flyOnce, 2000); // first appearance 2s after the page opens
     }());
   </script>
 

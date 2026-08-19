@@ -55,7 +55,7 @@
     height:5vmax;
     pointer-events:none;
     z-index:40;
-    animation:flying-drift 16s linear infinite;
+    animation:flying-drift 16s linear 2s infinite backwards;
   }
   .flying-badge img{
     width:100%;
