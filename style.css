@@ -133,6 +133,15 @@
   header nav .sep{color:var(--line);font-size:15px;}
   .mark img{height:28px;width:auto;display:block;}
 
+  /* ===== Top banner ===== */
+  .top-banner{
+    padding:24px 40px 0;
+  }
+  .top-banner img{
+    width:100%;
+    display:block;
+  }
+
   /* ===== Hero ===== */
   .hero{
     display:grid;
@@ -326,6 +335,7 @@
 
   @media (max-width:860px){
     header{grid-template-columns:auto 1fr;gap:20px;padding:20px;}
+    .top-banner{padding:16px 20px 0;}
     .hero{grid-template-columns:1fr;padding:56px 20px 90px;gap:40px;}
     .hero-info{gap:24px;}
     .hero-info .col{max-width:none;}
